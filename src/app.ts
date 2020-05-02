@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import recipeRouter from './routes/recipeRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -35,6 +36,7 @@ class App {
       });
     });
     this.express.use('/', router);
+    this.express.use('/api/v1/recipe', recipeRouter);
   }
 
 }
