@@ -30,7 +30,7 @@
     "nodemon": "^2.0.3"
   },
   "scripts": {
-    "start": "npm run build && nodemon dist/index.js",
+    "start": "nodemon src/index.ts",
     "test": "mocha --reporter spec --require ts-node/register 'test/**/*.test.ts'",
     "build": "tsc"
   },
