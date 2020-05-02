@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import recipeRouter from './routes/recipeRouter';
+import recipeRouter from './api/routes/recipeRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
