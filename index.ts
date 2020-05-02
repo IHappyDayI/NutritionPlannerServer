@@ -1,9 +1,10 @@
-// const Ingredient = require('./src/models/ingredient');
-import { Ingredient } from "./src/models/ingredient";
-// impot "./src/models/ingredient"
+import express = require('express');
 
-const myNewIngredient = new Ingredient("Haselnuss");
-
-
-
-console.log(myNewIngredient);
+// Create a new express app instance
+const app: express.Application = express();
+app.get('/', function (req, res) {
+    res.send('Hello World!');
+});
+app.listen(3000, function () {
+    console.log("App is listening on port 3000!");
+});
