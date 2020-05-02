@@ -2,17 +2,18 @@
   "name": "nutritionplannerserver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "directories": {
     "doc": "doc",
     "test": "test"
   },
   "dependencies": {
-    "node": "^14.0.0"
+    "node": "^14.0.0",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
