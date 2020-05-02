@@ -3,7 +3,7 @@ class Nutrient {
     value: any;
     unit: any;
 
-    constructor(name, value, unit) {
+    constructor(name: string, value: number, unit: EUnits) {
         this.name = name;
         this.value = value;
         this.unit = unit;
