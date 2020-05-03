@@ -23,7 +23,7 @@
 ## How to debug the application with Visual Studio Code:
 * Create a new config file `.vscode/launch.json`
 * Paste the following configuration into launch.json:
-```json
+```jsonc
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
