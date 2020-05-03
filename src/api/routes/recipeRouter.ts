@@ -21,10 +21,11 @@ export class RecipeRouter {
   }
 
   /**
-   * POST some new Recipe.
+   * POST some new Recipes.
    */
   public insertSeeds(req: Request, res: Response, next: NextFunction) {
     RecipeRepo.insertData();
+    return res.status(200).json({message: "data inserted"});
   }
 
   /**
