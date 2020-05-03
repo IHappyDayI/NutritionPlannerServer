@@ -1,4 +1,4 @@
-class Recipe {
+export class Recipe {
     name: any;
     ingredient: any;
     description: any;

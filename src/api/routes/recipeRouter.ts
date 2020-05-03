@@ -1,4 +1,5 @@
-import {Router, Request, Response, NextFunction} from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
+import { RecipeRepo } from '../../repositories/recipeRepo';
 
 export class RecipeRouter {
   router: Router
@@ -14,8 +15,16 @@ export class RecipeRouter {
   /**
    * GET all Recipes.
    */
-  public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send('Here are all recipes');
+  public async getAll(req: Request, res: Response, next: NextFunction) {
+    var result = await RecipeRepo.getAll();
+    return res.status(200).json({message: result});
+  }
+
+  /**
+   * POST some new Recipe.
+   */
+  public insertSeeds(req: Request, res: Response, next: NextFunction) {
+    RecipeRepo.insertData();
   }
 
   /**
@@ -24,6 +33,7 @@ export class RecipeRouter {
    */
   init() {
     this.router.get('/', this.getAll);
+    this.router.post('/', this.insertSeeds);
   }
 
 }
