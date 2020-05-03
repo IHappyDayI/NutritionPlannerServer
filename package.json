@@ -33,8 +33,10 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
+    "debug": "nodemon --inspect src/index.ts",
     "test": "mocha --reporter spec --require ts-node/register 'test/**/*.test.ts'",
-    "build": "tsc"
+    "build": "tsc",
+    "buildRun": "npm run build && node dist/index.js"
   },
   "repository": {
     "type": "git",
