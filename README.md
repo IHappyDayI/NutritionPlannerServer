@@ -8,6 +8,8 @@
 * Adjust the knexfile.js to match your database authentication details
 * Run the database/init.sql file on the database to initialize the database schema
 * Run `knex migrate:latest` to create all the database tables
+* Create a `.env` file in the project root. It can be used to define any environment variables.
+    * To control which module logs get routed to the console, add `DEBUG=List_Of_Comma_Separated_Modules`, eg. `DEBUG=http,express`. See [the debug documentation](https://www.npmjs.com/package/debug).
 
 ## How to use the application:
 * Use `npm start` in a terminal to start the server in your local development environment.
