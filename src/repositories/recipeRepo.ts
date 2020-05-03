@@ -3,7 +3,7 @@ const knexfile = require('./../../knexfile.js');
 
 const knex = require("knex")(knexfile.development);
 
-const recipies = [
+const recipes = [
     { name: 'suppe', description: 'test1' },
     { name: 'brot', description: 'test2' },
     { name: 'kartoffel', description: 'test3' },
@@ -17,12 +17,13 @@ export class RecipeRepo {
         for (var row of data) {
             result.push(new Recipe(row['id'], row['name'], row['description'], row['workflow']));
         }
+        knex.destroy();
 
         return result;
     }
 
     static insertData() {
-        knex('recipe').insert(recipies).then(() => console.log("data inserted"))
+        knex('recipe').insert(recipes).then(() => console.log("data inserted"))
         .catch((err: any) => { console.log(err); throw err })
         .finally(() => {
             knex.destroy();
