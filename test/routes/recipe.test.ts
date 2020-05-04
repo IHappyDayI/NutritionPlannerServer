@@ -1,5 +1,5 @@
-import * as chai from 'chai';
-import chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 import { clearDatabase } from '../testUtility';
 import knex from 'knex';
 
