@@ -17,16 +17,11 @@ export class RecipeRepo {
         for (var row of data) {
             result.push(new Recipe(row['id'], row['name'], row['description'], row['workflow']));
         }
-        knex.destroy();
-
         return result;
     }
 
     static insertData() {
         knex('recipe').insert(recipes).then(() => console.log("data inserted"))
         .catch((err: any) => { console.log(err); throw err })
-        .finally(() => {
-            knex.destroy();
-        });
     }
 };
