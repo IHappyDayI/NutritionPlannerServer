@@ -8,7 +8,7 @@ const expect = chai.expect;
 const db = knex(require('../../knexfile.js')['test']);
 
 beforeEach(() => clearDatabase(db));
-after(() => db.destroy());
+after(() => clearDatabase(db).then(() => db.destroy()));
 
 describe('GET api/v1/recipe', () => {
   it('should return all recipes', () => {
