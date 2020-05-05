@@ -15,7 +15,7 @@ export class RecipeRouter {
   /**
    * GET all Recipes.
    */
-  public async getAll(req: Request, res: Response, next: NextFunction) {
+  public async getAll(req: Request, res: Response) {
     var result = await RecipeRepo.getAll();
     return res.status(200).json({message: result});
   }
@@ -23,9 +23,17 @@ export class RecipeRouter {
   /**
    * POST some new Recipes.
    */
-  public insertSeeds(req: Request, res: Response, next: NextFunction) {
-    RecipeRepo.insertData();
-    return res.status(200).json({message: "data inserted"});
+  public async add(req: Request, res: Response) {
+    try {
+      const {name, ingredient, description, workflow} = req.body;
+      if (!name) return res.status(422).json({message: "missing request parameters"});
+      await RecipeRepo.insert(name, ingredient, description, workflow).then((id) => {
+        return res.status(200).json({ id, ...req.body })
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ err });
+    }
   }
 
   /**
@@ -34,7 +42,7 @@ export class RecipeRouter {
    */
   init() {
     this.router.get('/', this.getAll);
-    this.router.post('/', this.insertSeeds);
+    this.router.post('/', this.add);
   }
 
 }

@@ -1,18 +1,13 @@
+import knex from 'knex';
 import { Recipe } from '../models/recipe';
-const knexfile = require('./../../knexfile.js');
+import { v4 as uuid } from 'uuid';
 
-const knex = require("knex")(knexfile.development);
-
-const recipes = [
-    { name: 'suppe', description: 'test1' },
-    { name: 'brot', description: 'test2' },
-    { name: 'kartoffel', description: 'test3' },
-]
+const db = knex(require('../../knexfile.js')['test']);
 
 export class RecipeRepo {
 
     static async getAll(): Promise<any> {
-        var data = await knex.from('recipe').select("*");
+        var data = await db.from('recipe').select("*");
         let result: Recipe[] = [];
         for (var row of data) {
             result.push(new Recipe(row['id'], row['name'], row['description'], row['workflow']));
@@ -20,8 +15,15 @@ export class RecipeRepo {
         return result;
     }
 
-    static insertData() {
-        knex('recipe').insert(recipes).then(() => console.log("data inserted"))
-        .catch((err: any) => { console.log(err); throw err })
+    static async insert(name: string, ingredient: any, description: string, workflow: any): Promise<any> {
+        const recipeId = uuid();
+        await db('recipe').insert({
+            id: recipeId,
+            name: name,
+            ingredient: ingredient,
+            description: description,
+            workflow: workflow
+        });
+        return recipeId;
     }
 };
