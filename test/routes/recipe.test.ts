@@ -9,54 +9,61 @@ chai.use(chaiUUID);
 const expect = chai.expect;
 const db = knex(require('../../knexfile.js')['test']);
 
+const testRecipes = [
+  {
+    name: "Oma's Lebkuchenrezept",
+    ingredient: "leb",
+    description: "Hmm, lecker",
+    workflow: "1., 2., 3."
+  },
+  {
+    name: "Bratkartoffeln à la Spaceship",
+    ingredient: "Kartoffeln",
+    description: "So tasty, you'll die and your soul will fly to space looking for more",
+    workflow: "Potatoes + Magic" 
+  },
+]
+
 beforeEach(() => clearDatabase(db));
 after(() => clearDatabase(db).then(() => db.destroy()));
 
 describe('GET api/v1/recipe', () => {
-  it('should return all recipes', () => {
-    return chai.request("localhost:3000")
+  it('should return all recipes', async () => {
+    const res = await chai.request("localhost:3000")
       .get('/api/v1/recipe')
-      .then(res => {
-        expect(res.status).to.equal(200);
-        expect(res).to.be.json;
-      })
+      
+    expect(res.status).to.equal(200);
+    expect(res).to.be.json;
   });
 });
 
 describe('POST api/v1/recipe', () => {
   it('should add a new recipe');
-  it('should return the new recipe', () => {
-    return chai.request("localhost:3000")
+  it('should return the new recipe', async () => {
+    const res = await chai.request("localhost:3000")
       .post('/api/v1/recipe')
-      .send({
-        name: "Oma's Lebkuchenrezept",
-        ingredient: "leb",
-        description: "Hmm, lecker",
-        workflow: "1., 2., 3."
-      })
-      .then(res => {
-        expect(res.status).to.equal(200);
-        expect(res).to.be.json;
-        expect(res.body).to.have.property('id').and.to.be.uuid('v4');
-        expect(res.body).to.have.property('name').and.to.be.a('string');
-        expect(res.body).to.have.property('ingredient').and.to.be.a('string');
-        expect(res.body).to.have.property('description').and.to.be.a('string');
-        expect(res.body).to.have.property('workflow').and.to.be.an('string');
-      });
+      .send(testRecipes[1]);
+
+    expect(res.status).to.equal(200);
+    expect(res).to.be.json;
+    expect(res.body).to.have.property('id').and.to.be.uuid('v4');
+    expect(res.body).to.have.property('name').and.to.be.a('string');
+    expect(res.body).to.have.property('ingredient').and.to.be.a('string');
+    expect(res.body).to.have.property('description').and.to.be.a('string');
+    expect(res.body).to.have.property('workflow').and.to.be.an('string');
   });
 
-  it('should return 422 when the name is missing', () => {
-    return chai.request("localhost:3000")
+  it('should return 422 when the name is missing', async () => {
+    const res = await chai.request("localhost:3000")
       .post('/api/v1/recipe')
       .send({
         ingredient: "leb",
         description: "Hmm, lecker",
         workflow: "1., 2., 3."
-      })
-      .then(res => {
-        expect(res.status).to.equal(422);
-        expect(res).to.be.json;
       });
+
+      expect(res.status).to.equal(422);
+      expect(res).to.be.json;
   });
 });
 
