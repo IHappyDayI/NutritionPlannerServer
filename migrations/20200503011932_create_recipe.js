@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+export function up(knex, Promise) {
     return knex.schema.createTable('recipe', (table) => {
         table
             .uuid('id')
@@ -9,9 +9,9 @@ exports.up = function(knex, Promise) {
         table.string('ingredient')
         table.string('workflow')
     })
-};
+}
  
-exports.down = function(knex, Promise) {
+export function down(knex, Promise) {
     return knex.schema.dropTable('recipe')
-};
+}
   
