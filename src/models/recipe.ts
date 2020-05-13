@@ -1,7 +1,7 @@
 export type Recipe = {
-    id: string
-    name: any;
+    id?: string
+    name: string;
     ingredient: any;
-    description: any;
+    description: string;
     workflow: any;
 }

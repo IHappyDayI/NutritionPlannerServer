@@ -1,13 +1,14 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Recipe } from '../../models/recipe';
-import * as recipeService from "../../services/recipeService";
+import { addRecipe, getAllRecipes, recipeValidationRules } from "../../services/recipeService";
+import { validate } from "../../middleware/expressValidator";
 
 /**
  * GET all Recipes.
  */
 export async function getAll(req: Request, res: Response): Promise<Response> {
   try {
-    var result = await recipeService.getAll();
+    var result = await getAllRecipes();
     return res.status(200).json({message: result});
 
   } catch (error) {
@@ -21,8 +22,7 @@ export async function getAll(req: Request, res: Response): Promise<Response> {
  */
 export async function add(req: Request<{}, {}, Recipe>, res: Response): Promise<Response> {
   try {
-    if (!req.body.name) return res.status(422).json("missing request parameter");
-    const recipe = await recipeService.add(req.body);
+    const recipe = await addRecipe(req.body);
     return res.status(200).json(recipe);
 
   } catch (error) {
@@ -31,8 +31,8 @@ export async function add(req: Request<{}, {}, Recipe>, res: Response): Promise<
   }
 }
 
-const recipeRouter = Router()
+const recipeRouter = Router() 
 recipeRouter.get('/', getAll);
-recipeRouter.post('/', add);
+recipeRouter.post('/', recipeValidationRules(), validate, add);
 
 export default recipeRouter;
