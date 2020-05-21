@@ -1,5 +1,5 @@
 import { Recipe } from '../models/recipe';
-import { getAll, insert } from "../repositories/recipeRepo";
+import { getAll, insert, getById } from "../repositories/recipeRepo";
 import { header, body } from 'express-validator';
 
 export async function getAllRecipes(): Promise<Recipe[]> {
@@ -9,6 +9,10 @@ export async function getAllRecipes(): Promise<Recipe[]> {
 export async function addRecipe(recipe: Recipe): Promise<Recipe> {
     return insert(recipe);
 }
+
+export async function getRecipeById(id: string): Promise<Recipe> {
+    return getById(id);
+}  
 
 export function recipeValidationRules() {
     return [
