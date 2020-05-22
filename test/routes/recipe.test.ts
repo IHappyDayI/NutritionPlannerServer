@@ -28,7 +28,7 @@ beforeEach(() => clearDatabase(db));
 after(() => clearDatabase(db).then(() => db.destroy()));
 
 describe('GET api/v1/recipe', () => {
-  it('should return all recipes', async () => {
+  it('should return 200 and all recipes', async () => {
     for (const recipe of validTestRecipes) {
       await chai.request("localhost:3000")
         .post('/api/v1/recipe')
@@ -50,7 +50,7 @@ describe('GET api/v1/recipe', () => {
 });
 
 describe('POST api/v1/recipe', () => {
-  it('should return 200 and the new recipe with id when using valid request parameters', async () => {
+  it('should return 201 and the new recipe with id', async () => {
     const res = await chai.request("localhost:3000")
       .post('/api/v1/recipe')
       .send(validTestRecipes[1]);
@@ -92,7 +92,7 @@ describe('POST api/v1/recipe', () => {
 });
 
 describe('GET api/v1/recipe/:id', () => {
-  it('should return the specified recipe', async () => {
+  it('should return 200 and the specified recipe', async () => {
     var recipeIds = []
     for (const recipe of validTestRecipes) {
       const arrangeRes = await chai.request("localhost:3000")
@@ -111,15 +111,73 @@ describe('GET api/v1/recipe/:id', () => {
     delete recipe.id;
     expect(recipe).to.eql(validTestRecipes[1]);
   });
+
+  it('should return 404 if the recipe doesn\'t exist', async () => {
+    const res = await chai.request("localhost:3000")
+      .get('/api/v1/recipe/' + "NotAValidRecipeId")
+
+    expect(res.status).to.equal(404);
+    expect(res).to.be.json;
+  });
 });
 
 describe('PUT api/v1/recipe/:id', () => {
+  it('should return 200 and the updated recipe');
   it('should update the specified recipe');
-  it('should return the updated recipe');
   it('should return 422 when a request parameter is missing');
+  it('should return 422 when an unexpected parameter is passed in the request')
+  it('should return 404 if the recipe doesn\'t exist', async () => {
+    const res = await chai.request("localhost:3000")
+      .put('/api/v1/recipe/' + "NotAValidRecipeId")
+      .send(validTestRecipes[1]);
+
+    expect(res.status).to.equal(404);
+    expect(res).to.be.json;
+  });
 });
 
 describe('DELETE api/v1/recipe/:id', () => {
-  it('should delete the specified recipe');
-  it('should return the deleted recipe id');
+  it('should return 200 and the deleted recipe id', async () => {
+    var recipeIds = []
+    for (const recipe of validTestRecipes) {
+      const arrangeRes = await chai.request("localhost:3000")
+        .post('/api/v1/recipe')
+        .send(recipe);
+      recipeIds.push(arrangeRes.body.id);
+    }
+
+    const res = await chai.request("localhost:3000")
+      .delete('/api/v1/recipe/' + recipeIds[1])
+
+    expect(res.status).to.equal(200);
+    expect(res).to.be.json;
+    expect(res.body).to.eql(recipeIds[1]);
+  });
+
+  it('should delete the specified recipe', async () => {
+    var recipeIds = []
+    for (const recipe of validTestRecipes) {
+      const arrangeRes = await chai.request("localhost:3000")
+        .post('/api/v1/recipe')
+        .send(recipe);
+      recipeIds.push(arrangeRes.body.id);
+    }
+
+    await chai.request("localhost:3000")
+      .delete('/api/v1/recipe/' + recipeIds[1])
+
+    const res = await chai.request("localhost:3000")
+      .get('/api/v1/recipe/' + recipeIds[1])
+
+    expect(res.status).to.equal(404);
+    expect(res).to.be.json;
+  });
+
+  it('should return 404 if the recipe doesn\'t exist', async () => {
+    const res = await chai.request("localhost:3000")
+      .delete('/api/v1/recipe/' + "NotAValidRecipeId")
+
+    expect(res.status).to.equal(404);
+    expect(res).to.be.json;
+  });
 });
