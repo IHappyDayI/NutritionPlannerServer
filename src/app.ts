@@ -1,7 +1,8 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import recipeRouter from './api/routes/recipeRouter';
+import { handleErrors } from './middleware/errorHandler'
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -14,13 +15,13 @@ class App {
     this.express = express();
     this.middleware();
     this.routes();
+    this.errorHandlers();
   }
 
   // Configure Express middleware.
   private middleware(): void {
     this.express.use(logger('dev'));
     this.express.use(bodyParser.json());
-    this.express.use(bodyParser.urlencoded({ extended: false }));
   }
 
   // Configure API endpoints.
@@ -39,6 +40,9 @@ class App {
     this.express.use('/api/v1/recipe', recipeRouter);
   }
 
+  private errorHandlers(): void {
+    this.express.use(handleErrors);
+  }
 }
 
 export default new App().express;
