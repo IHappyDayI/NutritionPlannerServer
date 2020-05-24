@@ -55,7 +55,7 @@ describe('POST api/v1/recipe', () => {
       .post('/api/v1/recipe')
       .send(validTestRecipes[1]);
 
-    expect(res.status).to.equal(200);
+    expect(res.status).to.equal(201);
     expect(res).to.be.json;
     expect(res.body).to.haveOwnProperty('id').with.uuid('v4');
     var initialRecipe = res.body;
