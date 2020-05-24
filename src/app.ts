@@ -1,7 +1,7 @@
 import express, { NextFunction } from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import recipeRouter from './api/routes/recipeRouter';
+import recipeRouter from './api/recipeRouter';
 import { handleErrors } from './middleware/errorHandler'
 
 // Creates and configures an ExpressJS web server.

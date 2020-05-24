@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import { Recipe } from '../../models/recipe';
-import { addRecipe, getAllRecipes, recipeValidationRules, getRecipeById, deleteRecipeById } from "../../services/recipeService";
-import { validate } from "../../middleware/expressValidator";
-import { errorWrapper } from '../../middleware/errorHandler'
+import { Recipe } from '../models/recipe';
+import { addRecipe, getAllRecipes, recipeValidationRules, getRecipeById, deleteRecipeById } from "../services/recipeService";
+import { validate } from "../middleware/expressValidator";
+import { errorWrapper } from '../middleware/errorHandler'
 
 /**
  * GET all Recipes.
