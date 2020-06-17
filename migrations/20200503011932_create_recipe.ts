@@ -1,4 +1,6 @@
-export function up(knex, Promise) {
+import knex from 'knex';
+
+export function up(knex: knex): Promise<any> {
     return knex.schema.createTable('recipe', (table) => {
         table
             .uuid('id')
@@ -11,7 +13,7 @@ export function up(knex, Promise) {
     })
 }
  
-export function down(knex, Promise) {
+export function down(knex: knex): Promise<any> {
     return knex.schema.dropTable('recipe')
 }
   
